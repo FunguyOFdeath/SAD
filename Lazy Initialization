@@ -44,6 +44,6 @@ int main() // Точка входа в программу
     Fruit::GetFruit("Apple"); // Создание экземпляра фрукта типа "Apple"
     Fruit::PrintCurrentTypes(); // Вывод текущих типов фруктов
 
-    Fruit::GetFruit("Banana"); // Попытка создания еще одного экземпляра "Banana", но он уже существует
+    Fruit::GetFruit("Banana"); // Попытка создания еще одного экземпляра "Banana"
     Fruit::PrintCurrentTypes(); // Вывод текущих типов фруктов
 }
