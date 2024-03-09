@@ -29,7 +29,7 @@ Singleton* obj = nullptr; // Объявляем указатель на объе
 
 int main() // Главная функция программы
 {
-    *obj = Singleton::getInstance(); // Получаем экземпляр Singleton и сохраняем его в obj. Тут ошибка, правильно было бы Singleton* obj = Singleton::getInstance();
+    *obj = Singleton::getInstance(); // Получаем экземпляр Singleton и сохраняем его в obj.
     obj->printHelloWorld(); // Вызываем метод printHelloWorld через указатель на экземпляр Singleton
     return 0; // Возвращаем 0 при успешном выполнении программы
 }
