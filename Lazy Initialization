@@ -1,0 +1,49 @@
+#include <iostream> // Подключение библиотеки ввода-вывода
+#include <map> // Подключение библиотеки для работы с ассоциативными массивами
+#include <string> // Подключение библиотеки для работы со строками
+using namespace std; // Использование стандартного пространства имен
+
+class Fruit // Объявление класса Fruit
+{
+public:
+    static Fruit* GetFruit(const string& type); // Объявление статической функции для получения экземпляра фрукта по типу
+    static void PrintCurrentTypes(); // Объявление статической функции для вывода текущих типов фруктов
+
+private:
+    Fruit(const string& type) : type(type) {} // Приватный конструктор класса, инициализирующий тип фрукта
+    static map<string, Fruit*> types; // Статический ассоциативный массив, хранящий типы фруктов и указатели на их экземпляры
+    string type; // Строковая переменная для хранения типа фрукта
+};
+
+map<string, Fruit*> Fruit::types; // Инициализация статической переменной ассоциативного массива
+
+Fruit* Fruit::GetFruit(const string& type) // Реализация статической функции для получения экземпляра фрукта
+{
+    auto [it, inserted] = types.emplace(type, nullptr); // Попытка вставить новый тип фрукта в map, если он еще не существует
+    if (inserted) {
+        it->second = new Fruit(type); // Если тип фрукта был вставлен, создаем новый экземпляр фрукта
+    }
+    return it->second; // Возвращаем указатель на экземпляр фрукта
+}
+
+void Fruit::PrintCurrentTypes() // Реализация статической функции для вывода текущих типов фруктов
+{
+    cout << "Number of instances made = " << types.size() << endl; // Вывод количества созданных экземпляров фруктов
+    for (const auto& [type, fruit] : types) // Перебор всех элементов в ассоциативном массиве
+    {
+        cout << type << endl; // Вывод типа фрукта
+    }
+    cout << endl; // Вывод пустой строки для разделения
+}
+
+int main() // Точка входа в программу
+{
+    Fruit::GetFruit("Banana"); // Создание экземпляра фрукта типа "Banana"
+    Fruit::PrintCurrentTypes(); // Вывод текущих типов фруктов
+
+    Fruit::GetFruit("Apple"); // Создание экземпляра фрукта типа "Apple"
+    Fruit::PrintCurrentTypes(); // Вывод текущих типов фруктов
+
+    Fruit::GetFruit("Banana"); // Попытка создания еще одного экземпляра "Banana", но он уже существует
+    Fruit::PrintCurrentTypes(); // Вывод текущих типов фруктов
+}
