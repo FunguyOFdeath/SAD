@@ -1,0 +1,35 @@
+#include <iostream> // Подключение библиотеки ввода-вывода
+using namespace std; // Использование стандартного пространства имён
+
+class Singleton // Объявление класса Singleton
+{
+private:
+    static Singleton* instance; // Статический указатель на экземпляр класса
+    Singleton() // Конструктор по умолчанию в приватной области, запрещает создание объекта извне
+    {
+    }
+public:
+    static Singleton getInstance() // Статический метод для получения экземпляра Singleton
+    {
+        if (instance == nullptr) // Если экземпляр еще не создан
+        {
+            instance = new Singleton(); // Создаем экземпляр Singleton
+        }
+        return instance; // Возвращаем указатель на экземпляр
+    }
+
+    void printHelloWorld() // Метод для вывода сообщения
+    {
+        cout << "Hello World!" << endl; // Выводит "Hello World!" в стандартный вывод
+    }
+};
+
+Singleton* Singleton::instance = nullptr; // Инициализация статического члена класса, указатель на экземпляр равен nullptr
+Singleton* obj = nullptr; // Объявляем указатель на объект типа Singleton и инициализируем его как nullptr
+
+int main() // Главная функция программы
+{
+    *obj = Singleton::getInstance(); // Получаем экземпляр Singleton и сохраняем его в obj. Тут ошибка, правильно было бы Singleton* obj = Singleton::getInstance();
+    obj->printHelloWorld(); // Вызываем метод printHelloWorld через указатель на экземпляр Singleton
+    return 0; // Возвращаем 0 при успешном выполнении программы
+}
