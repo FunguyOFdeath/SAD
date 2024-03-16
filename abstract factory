@@ -83,8 +83,8 @@ public:
 
 class PizzaFactory { // Абстрактный класс фабрики пиццы
 public:
-    virtual Pizza* createCheesePizza() = 0; // Метод для создания пиццы с сыром
-    virtual Pizza* createPepperoniPizza() = 0; // Метод для создания пиццы с пепперони
+    virtual Pizza* createCheesePizza() = 0; // Метод для создания пиццы с сыром (<-Фабричный метод для создания сырной пиццы.)
+    virtual Pizza* createPepperoniPizza() = 0; // Метод для создания пиццы с пепперони (<-Фабричный метод для создания пиццы с пепперони.)
 };
 
 class NewYorkPizzaFactory : public PizzaFactory { // Конкретная фабрика для пицц в стиле Нью-Йорка
