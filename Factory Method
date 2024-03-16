@@ -26,6 +26,7 @@ public:
 
 class Creator { // Объявляет класс с именем Creator, который отвечает за создание объектов Product.
 public:
+// Фабричный метод (предоставление интерфейса для создания объектов)
     virtual Product* create(ProductId id) { // Объявляет функцию с именем create, которая принимает перечисление ProductId и возвращает указатель на объект Product.
         if (ProductId::MINE == id) // Проверяет, равен ли аргумент id MINE.
         {
