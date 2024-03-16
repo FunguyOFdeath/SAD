@@ -1,0 +1,144 @@
+#include <iostream> // Подключение библиотеки ввода-вывода
+
+using namespace std; // Использование стандартного пространства имен
+
+class Pizza { // Объявление абстрактного класса Pizza
+public:
+    virtual void bake() = 0; // Чисто виртуальная функция для выпекания пиццы
+    virtual void cut() = 0; // Чисто виртуальная функция для нарезки пиццы
+    virtual void box() = 0; // Чисто виртуальная функция для упаковки пиццы
+};
+
+class NewYorkCheesePizza : public Pizza { // Класс для пиццы с сыром в стиле Нью-Йорка
+public:
+    void bake() override // Реализация функции выпекания
+    {
+        cout << "Baking New York-style cheese pizza." << endl;
+    }
+
+    void cut() override // Реализация функции нарезки
+    {
+        cout << "Cutting New York-style cheese pizza." << endl;
+    }
+
+    void box() override // Реализация функции упаковки
+    {
+        cout << "Boxing New York-style cheese pizza." << endl;
+    }
+};
+
+class NewYorkPepperoniPizza : public Pizza { // Класс для пиццы с пепперони в стиле Нью-Йорка
+public:
+    void bake() override
+    {
+        cout << "Baking New York-style pepperoni pizza." << endl;
+    }
+
+    void cut() override
+    {
+        cout << "Cutting New York-style pepperoni pizza." << endl;
+    }
+
+    void box() override
+    {
+        cout << "Boxing New York-style pepperoni pizza." << endl;
+    }
+};
+
+class ChicagoCheesePizza : public Pizza { // Класс для пиццы с сыром в стиле Чикаго
+public:
+    void bake() override
+    {
+        cout << "Baking Chicago-style cheese pizza." << endl;
+    }
+
+    void cut() override
+    {
+        cout << "Cutting Chicago-style cheese pizza." << endl;
+    }
+
+    void box() override
+    {
+        cout << "Boxing Chicago-style cheese pizza." << endl;
+    }
+};
+
+class ChicagoPepperoniPizza : public Pizza { // Класс для пиццы с пепперони в стиле Чикаго
+public:
+    void bake() override
+    {
+        cout << "Baking Chicago-style pepperoni pizza." << endl;
+    }
+
+    void cut() override
+    {
+        cout << "Cutting Chicago-style pepperoni pizza." << endl;
+    }
+
+    void box() override
+    {
+        cout << "Boxing Chicago-style pepperoni pizza." << endl;
+    }
+};
+
+class PizzaFactory { // Абстрактный класс фабрики пиццы
+public:
+    virtual Pizza* createCheesePizza() = 0; // Метод для создания пиццы с сыром
+    virtual Pizza* createPepperoniPizza() = 0; // Метод для создания пиццы с пепперони
+};
+
+class NewYorkPizzaFactory : public PizzaFactory { // Конкретная фабрика для пицц в стиле Нью-Йорка
+public:
+    Pizza* createCheesePizza() override // Создание пиццы с сыром в стиле Нью-Йорка
+    {
+        return new NewYorkCheesePizza();
+    }
+
+    Pizza* createPepperoniPizza() override // Создание пиццы с пепперони в стиле Нью-Йорка
+    {
+        return new NewYorkPepperoniPizza();
+    }
+};
+
+class ChicagoPizzaFactory : public PizzaFactory { // Конкретная фабрика для пицц в стиле Чикаго
+public:
+    Pizza* createCheesePizza() override // Создание пиццы с сыром в стиле Чикаго
+    {
+        return new ChicagoCheesePizza();
+    }
+
+    Pizza* createPepperoniPizza() override // Создание пиццы с пепперони в стиле Чикаго
+    {
+        return new ChicagoPepperoniPizza();
+    }
+};
+
+int main() // Главная функция
+{
+    PizzaFactory* newYorkFactory = new NewYorkPizzaFactory(); // Создание фабрики пиццы Нью-Йорка
+    Pizza* newYorkCheesePizza = newYorkFactory->createCheesePizza(); // Создание Нью-Йоркской пиццы с сыром
+    Pizza* newYorkPepperoniPizza = newYorkFactory->createPepperoniPizza(); // Создание Нью-Йоркской пиццы с пепперони
+
+    PizzaFactory* chicagoFactory = new ChicagoPizzaFactory(); // Создание фабрики пиццы Чикаго
+    Pizza* chicagoCheesePizza = chicagoFactory->createCheesePizza(); // Создание Чикагской пиццы с сыром
+    Pizza* chicagoPepperoniPizza = chicagoFactory->createPepperoniPizza(); // Создание Чикагской пиццы с пепперони
+
+    // Выпекание, нарезка и упаковка Нью-Йоркской и Чикагской пицц
+    newYorkCheesePizza->bake();
+    newYorkCheesePizza->cut();
+    newYorkCheesePizza->box();
+
+    newYorkPepperoniPizza->bake();
+    newYorkPepperoniPizza->cut();
+    newYorkPepperoniPizza->box();
+
+    chicagoCheesePizza->bake();
+    chicagoCheesePizza->cut();
+    chicagoCheesePizza->box();
+
+    chicagoPepperoniPizza->bake();
+    chicagoPepperoniPizza->cut();
+    chicagoPepperoniPizza->box();
+
+    return 0; // Завершение программы
+}
