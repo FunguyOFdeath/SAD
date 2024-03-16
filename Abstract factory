@@ -1,6 +1,5 @@
-#include <iostream> // Подключение библиотеки ввода-вывода
-
-using namespace std; // Использование стандартного пространства имен
+#include <iostream> 
+using namespace std; 
 
 class Pizza { // Объявление абстрактного класса Pizza
 public:
