@@ -1,0 +1,51 @@
+#include <iostream> // Подключает библиотеку потокового ввода-вывода для операций ввода и вывода, таких как cout для вывода на консоль.
+
+using namespace std; // Использует пространство имен std, чтобы избежать необходимости добавлять префикс std:: ко всем объектам и функциям стандартной библиотеки.
+
+enum ProductId {MINE, YOURS}; // Определяет перечисление с именем ProductId с двумя возможными значениями: MINE и YOURS. Используется для различения разных типов продуктов.
+
+class Product { // Объявляет абстрактный класс с именем Product.
+public:
+    virtual void print() = 0; // Объявляет чисто виртуальную функцию print. Это делает Product абстрактным классом, который нельзя инстанцировать и требует от производных классов реализации функции print.
+    virtual ~Product() = default; // Объявляет виртуальный деструктор с реализацией по умолчанию. Это обеспечивает правильную очистку производных объектов при удалении через указатель на Product.
+};
+
+class ConcreteProductMINE: public Product { // Определяет класс ConcreteProductMINE, наследующий от Product и представляющий конкретный тип продукта.
+public:
+    void print() { // Реализует функцию print для ConcreteProductMINE.
+        cout << "this=" << this << " print MINE\n"; // Выводит адрес текущего объекта и сообщение, указывающее, что это тип MINE.
+    }
+};
+
+class ConcreteProductYOURS: public Product { // Определяет класс ConcreteProductYOURS, который также наследуется от Product и представляет другой конкретный тип продукта.
+public:
+    void print() { // Реализует функцию print для ConcreteProductYOURS.
+        cout << "this=" << this << " print YOURS\n"; // Выводит адрес текущего объекта и сообщение, указывающее, что это тип YOURS.
+    }
+};
+
+class Creator { // Объявляет класс с именем Creator, который отвечает за создание объектов Product.
+public:
+    virtual Product* create(ProductId id) { // Объявляет функцию с именем create, которая принимает перечисление ProductId и возвращает указатель на объект Product.
+        if (ProductId::MINE == id) // Проверяет, равен ли аргумент id MINE.
+        {
+            return new ConcreteProductMINE(); // Если да, возвращает новый экземпляр ConcreteProductMINE.
+        }
+        if (ProductId::YOURS == id) // Проверяет, равен ли аргумент id YOURS.
+        {
+            return new ConcreteProductYOURS; // Если да, возвращает новый экземпляр ConcreteProductYOURS.
+        }
+        return nullptr; // Если ни один из вышеуказанных условий не выполнен, возвращает nullptr, указывая на то, что продукт не был создан.
+    }
+    virtual ~Creator() = default; // Объявляет виртуальный деструктор с реализацией по умолчанию для обеспечения правильной очистки производных классов Creator.
+};
+
+int main() { // Определяет основную функцию, с которой начинается выполнение программы.
+    // Умный указатель предотвращает утечки памяти.
+    Creator* creator = new Creator(); // Создает новый экземпляр Creator.
+    Product* product = creator->create(ProductId::MINE); // Использует creator для создания продукта типа MINE.
+    product->print(); // Вызывает функцию print созданного продукта.
+
+    product = creator->create(ProductId::YOURS); // Использует creator для создания другого продукта, на этот раз типа YOURS.
+    product->print(); // Вызывает функцию print нового продукта.
+}
