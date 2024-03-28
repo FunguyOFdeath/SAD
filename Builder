@@ -1,0 +1,124 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Computer
+{
+private:
+    string cpu_;
+    string ram_;
+    string storage_;
+
+public:
+    void setCPU(const string& cpu)
+    {
+        cpu_ = cpu;
+    }
+
+    void setRAM(const string& ram)
+    {
+        ram_ = ram;
+    }
+
+    void setStorage(const string& storage)
+    {
+        storage_ = storage;
+    }
+
+    void displayInfo() const
+    {
+        std::cout << "Computer Configuration:"
+                  << "\nCPU: " << cpu_
+                  << "\nRAM: " << ram_
+                  << "\nStorage: " << storage_ << "\n\n";
+    }
+};
+
+class Builder
+{
+public:
+    virtual void buildCPU() = 0;
+    virtual void buildRAM() = 0;
+    virtual void buildStorage() = 0;
+    virtual Computer getResult() = 0;
+};
+
+
+class GamingComputerBuilder : public Builder
+{
+private:
+    Computer computer_;
+
+public:
+    void buildCPU() override {
+        computer_.setCPU("Gaming CPU");
+    }
+
+    void buildRAM() override {
+        computer_.setRAM("16GB DDR4");
+    }
+
+    void buildStorage() override {
+        computer_.setStorage("1TB SSD");
+    }
+
+    Computer getResult() override {
+        return computer_;
+    }
+};
+
+class OfficeComputerBuilder : public Builder
+{
+private:
+    Computer computer_;
+
+public:
+    void buildCPU() override
+    {
+        computer_.setCPU("Office CPU");
+    }
+
+    void buildRAM() override
+    {
+        computer_.setRAM("4GB DDR3");
+    }
+
+    void buildStorage() override
+    {
+        computer_.setStorage("512GB HDD");
+    }
+
+    Computer getResult() override
+    {
+        return computer_;
+    }
+};
+
+class ComputerDirector
+{
+public:
+    void construct(Builder& builder)
+    {
+        builder.buildCPU();
+        builder.buildRAM();
+        builder.buildStorage();
+    }
+};
+
+int main()
+{
+    GamingComputerBuilder gamingBuilder;
+    OfficeComputerBuilder officeBuilder;
+    ComputerDirector director;
+
+    director.construct(gamingBuilder);
+    director.construct(officeBuilder);
+    Computer gamingComputer = gamingBuilder.getResult();
+    Computer officeComputer = officeBuilder.getResult();
+
+    gamingComputer.displayInfo();
+    officeComputer.displayInfo();
+
+    return 0;
+}
