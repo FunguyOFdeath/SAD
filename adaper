@@ -1,44 +1,44 @@
-#include <iostream>
+#include <iostream> // Подключаем библиотеку для ввода-вывода
 
-// Target Interface
+// Целевой интерфейс, который мы хотим использовать
 class Printer
 {
 public:
-    virtual void print() = 0;
+    virtual void print() = 0; // Чисто виртуальная функция для печати
 };
 
-// Adaptee
+// Существующий класс, который нужно адаптировать
 class LegacyPrinter
 {
 public:
-    void printDocument()
+    void printDocument() // Метод, имитирующий печать документа старым принтером
     {
         std::cout << "Legacy Printer is printing a document." << std::endl;
     }
 };
 
-// Adapter
+// Адаптер, наследуемый от целевого интерфейса
 class PrinterAdapter : public Printer
 {
 private:
-    LegacyPrinter legacyPrinter;
+    LegacyPrinter legacyPrinter; // Экземпляр старого принтера
 
 public:
-    void print() override
+    void print() override // Реализация метода печати целевого интерфейса
     {
-        legacyPrinter.printDocument();
+        legacyPrinter.printDocument(); // Адаптер вызывает метод старого принтера
     }
 };
 
-// Client Code
+// Клиентский код, который использует целевой интерфейс
 void clientCode(Printer& printer)
 {
-    printer.print();
+    printer.print(); // Вызов метода печати через интерфейс
 }
 
 int main()
 {
-    PrinterAdapter adapter;
-    clientCode(adapter);
+    PrinterAdapter adapter; // Создаем адаптер
+    clientCode(adapter); // Используем адаптер в качестве принтера
     return 0;
 }
