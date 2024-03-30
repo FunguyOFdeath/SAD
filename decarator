@@ -2,79 +2,87 @@
 #include <string>
 using namespace std;
 
+// Абстрактный базовый класс для мороженого
 class IceCream
 {
 public:
+    // Получить описание мороженого
     virtual string getDescription() const = 0;
+    // Узнать стоимость мороженого
     virtual double cost() const = 0;
 };
 
+// Класс для ванильного мороженого, реализующий интерфейс IceCream
 class VanillaIceCream : public IceCream
 {
 public:
+    // Возвращает описание ванильного мороженого
     string getDescription() const override
     {
         return "Vanilla Ice Cream";
     }
 
+    // Возвращает стоимость ванильного мороженого
     double cost() const override { return 160.0; }
 };
 
+// Абстрактный декоратор для мороженого
 class IceCreamDecorator : public IceCream
 {
 protected:
-    IceCream* iceCream;
+    IceCream* iceCream; // Ссылка на декорируемый объект мороженого
 
 public:
-    IceCreamDecorator(IceCream* ic)
-            : iceCream(ic)
-    {
-    }
+    // Конструктор принимает объект мороженого для декорирования
+    IceCreamDecorator(IceCream* ic) : iceCream(ic) {}
 
+    // Возвращает описание с добавлением декора
     string getDescription() const override
     {
         return iceCream->getDescription();
     }
 
+    // Возвращает стоимость с учетом добавленного декора
     double cost() const override
     {
         return iceCream->cost();
     }
 };
 
+// Декоратор для добавления шоколада к мороженому
 class ChocolateDecorator : public IceCreamDecorator
 {
 public:
-    ChocolateDecorator(IceCream* ic)
-            : IceCreamDecorator(ic)
-    {
-    }
+    // Конструктор
+    ChocolateDecorator(IceCream* ic) : IceCreamDecorator(ic) {}
 
+    // Добавляет описание шоколада к описанию мороженого
     string getDescription() const override
     {
-        return iceCream->getDescription()
-               + " with Chocolate";
+        return iceCream->getDescription() + " with Chocolate";
     }
 
+    // Добавляет стоимость шоколада к стоимости мороженого
     double cost() const override
     {
         return iceCream->cost() + 100.0;
     }
 };
 
+// Декоратор для добавления карамели к мороженому
 class CaramelDecorator : public IceCreamDecorator
 {
 public:
-    CaramelDecorator(IceCream* ic)
-            : IceCreamDecorator(ic)
-    {
-    }
+    // Конструктор
+    CaramelDecorator(IceCream* ic) : IceCreamDecorator(ic) {}
 
+    // Добавляет описание карамели к описанию мороженого
     string getDescription() const override
     {
         return iceCream->getDescription() + " with Caramel";
     }
 
+    // Добавляет стоимость карамели к стоимости мороженого
     double cost() const override
     {
         return iceCream->cost() + 150.0;
@@ -83,19 +91,20 @@ public:
 
 int main()
 {
+    // Создание и вывод информации о ванильном мороженом
     IceCream* vanillaIceCream = new VanillaIceCream();
     cout << "Order: " << vanillaIceCream->getDescription()
          << ", Cost: Rs." << vanillaIceCream->cost()
          << endl;
 
-    IceCream* chocolateIceCream
-            = new ChocolateDecorator(vanillaIceCream);
+    // Добавление шоколада к ванильному мороженому и вывод информации
+    IceCream* chocolateIceCream = new ChocolateDecorator(vanillaIceCream);
     cout << "Order: " << chocolateIceCream->getDescription()
          << ", Cost: Rs." << chocolateIceCream->cost()
          << endl;
 
-    IceCream* caramelIceCream
-            = new CaramelDecorator(chocolateIceCream);
+    // Добавление карамели к шоколадному мороженому и вывод информации
+    IceCream* caramelIceCream = new CaramelDecorator(chocolateIceCream);
     cout << "Order: " << caramelIceCream->getDescription()
          << ", Cost: Rs." << caramelIceCream->cost()
          << endl;
