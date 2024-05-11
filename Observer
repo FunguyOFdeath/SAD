@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Интерфейс Observer с методом update, который вызывается при изменении погоды.
+interface Observer {
+    void update(String weather);
+}
+
+// Интерфейс Subject с методами для добавления, удаления наблюдателей и уведомления их о изменениях.
+interface Subject {
+    void addObserver(Observer observer); // Метод для добавления наблюдателя.
+    void removeObserver(Observer observer); // Метод для удаления наблюдателя.
+    void notifyObservers(); // Метод для уведомления всех наблюдателей о событии.
+}
+
+// Класс WeatherStation, реализующий интерфейс Subject, представляет собой метеостанцию.
+class WeatherStation implements Subject {
+    private List<Observer> observers = new ArrayList<>(); // Список для хранения наблюдателей.
+    private String weather; // Переменная для хранения текущей погоды.
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer); // Добавление наблюдателя в список.
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer); // Удаление наблюдателя из списка.
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(weather); // Оповещение всех наблюдателей об изменении погоды.
+        }
+    }
+
+    public void setWeather(String newWeather) {
+        this.weather = newFear; // Обновление текущей погоды.
+        notifyObservers(); // Уведомление всех наблюдателей о новой погоде.
+    }
+}
+
+// Класс PhoneDisplay, реализующий интерфейс Observer, представляет дисплей телефона.
+class PhoneDisplay implements Observer {
+    private String weather; // Переменная для хранения текущей погоды.
+
+    @Override
+    public void update(String weather) {
+        this.weather = weather; // Обновление погоды.
+        display(); // Отображение погоды.
+    }
+
+    private void display() {
+        System.out.println("Phone Display: Weather updated - " + weather); // Вывод обновленной погоды на дисплей телефона.
+    }
+}
+
+// Класс TVDisplay, реализующий интерфейс Observer, представляет дисплей телевизора.
+class TVDisplay implements Observer {
+    private String weather; // Переменная для хранения текущей погоды.
+
+    @Override
+    public void update(String weather) {
+        this.weather = weather; // Обновление погоды.
+        display(); // Отображение погоды.
+    }
+
+    private void display() {
+        System.out.println("TV Display: Weather updated - " + weather); // Вывод обновленной погоды на дисплей телевизора.
+    }
+}
+
+// Основной класс Main с методом main.
+public class Main {
+    public static void main(String[] args) {
+        WeatherStation weatherStation = new WeatherStation(); // Создание объекта метеостанции.
+
+        Observer phoneDisplay = new PhoneDisplay(); // Создание объекта дисплея телефона.
+        Observer tvDisplay = new TVDisplay(); // Создание объекта дисплея телевизора.
+
+        weatherStation.addObserver(phoneDisplay); // Добавление дисплея телефона в список наблюдателей метеостанции.
+        weatherStation.addObserver(tvDisplay); // Добавление дисплея телевизора в список наблюдателей.
+
+        weatherStation.setWeather("Sunny"); // Установка и оповещение о погоде "Солнечно".
+    }
+}
