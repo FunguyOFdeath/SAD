@@ -1,0 +1,140 @@
+interface Command {
+    void execute();
+}
+
+// Класс TurnOnCommand реализует интерфейс Command для включения устройства.
+class TurnOnCommand implements Command {
+    private Device device; // Объект device, представляющий устройство, которое будет включено.
+
+    public TurnOnCommand(Device device) {
+        this.device = device; // Конструктор, принимающий устройство, которое должно быть включено.
+    }
+
+    @Override
+    public void execute() {
+        device.turnOn(); // Метод execute вызывает метод turnOn у устройства.
+    }
+}
+
+// Класс TurnOffCommand реализует интерфейс Command для выключения устройства.
+class TurnOffCommand implements Command {
+    private Device device; // Объект device, представляющий устройство, которое будет выключено.
+
+    public TurnOffCommand(Device device) {
+        this.device = device; // Конструктор, принимающий устройство, которое должно быть выключено.
+    }
+
+    @Override
+    public void execute() {
+        device.turnOff(); // Метод execute вызывает метод turnOff у устройства.
+    }
+}
+
+// Класс AdjustVolumeCommand реализует интерфейс Command для регулировки громкости стереосистемы.
+class AdjustVolumeCommand implements Command {
+    private Stereo stereo; // Объект stereo, представляющий стереосистему, громкость которой будет регулироваться.
+
+    public AdjustTheVolumeCommand(Stereo stereo) {
+        this.stereo = stereo; // Конструктор, принимающий стереосистему для регулировки громкости.
+    }
+
+    @Override
+    public void execute() {
+        stereo.adjustVolume(); // Метод execute вызывает метод adjustVolume у стереосистемы.
+    }
+}
+
+// Класс ChangeChannelCommand реализует интерфейс Command для смены канала на телевизоре.
+class ChangeChannelCommand implements Command {
+    private TV tv; // Объект tv, представляющий телевизор, на котором будет сменён канал.
+
+    public ChangeChannelCommand(TV tv) {
+        this.tv = tv; // Конструктор, принимающий телевизор для смены канала.
+    }
+
+    @Override
+    public void execute() {
+        tv.changeChannel(); // Метод execute вызывает метод changeChannel у телевизора.
+    }
+}
+
+// Интерфейс Device определяет методы turnOn и turnOff для управления устройствами.
+interface Device {
+    void turnOn();
+    void turnOff();
+}
+
+// Класс TV реализует интерфейс Device с методами включения, выключения и смены канала.
+class TV implements Device {
+    @Override
+    public void turnOn() {
+        System.out.println("TV is now on"); // Выводит сообщение при включении телевизора.
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("TV is now off"); // Выводит сообщение при выключении телевизора.
+    }
+
+    public void changeChannel() {
+        System.out.println("Channel changed"); // Выводит сообщение при смене канала.
+    }
+}
+
+// Класс Stereo реализует интерфейс Device с методами включения, выключения и регулировки громкости.
+class Stereo implements Device {
+    @Override
+    public void turnOn() {
+        System.out.println("Stereo is now on"); // Выводит сообщение при включении стереосистемы.
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("Stereo is now off"); // Выводит сообщение при выключении стереосистемы.
+    }
+
+    public void adjustVolume() {
+        System.out.println("Volume adjusted"); // Выводит сообщение при регулировке громкости.
+    }
+}
+
+// Класс RemoteControl служит для вызова команд.
+class RemoteControl {
+    private Command command; // Поле command для хранения текущей команды.
+
+    public void setCommand(Command command) {
+        this.command = command; // Устанавливает команду, которая будет выполнена.
+    }
+
+    public void pressButton() {
+        command.execute(); // Выполняет сохраненную команду при нажатии кнопки.
+    }
+}
+
+// Основной класс Main, содержащий метод main для демонстрации работы паттерна.
+public classMain {
+    public static void main(String[] args) {
+        TV tv = new TV(); // Создание объекта телевизора.
+        Stereo stereo = new Stereo(); // Создание объекта стереосистемы.
+
+        Command turnOnTVCommand = new TurnOnCommand(tv);
+        Command turnOffTVCommand = new TurnOffCommand(tv);
+        Command adjustVolumeStereoCommand = new AdjustVolumeCommand(stereo);
+        Command changeChannelTVCommand = new ChangeChannelCommand(tv);
+
+        RemoteControl remote = new RemoteControl(); // Создание объекта пульта дистанционного управления.
+
+        // Устанавливаем и выполняем различные команды через пульт:
+        remote.setCommand(turnOnTVCommand);
+        remote.pressButton();
+
+        remote.setCommand(adjustVolumeSteronCommand);
+        remote.pressButton();
+
+        remote.setCommand(changeChannelTVCommand);
+        remote.pressButton();
+
+        remote.setCommand(turnOffTVCommand);
+        remote.pressButton();
+    }
+}
